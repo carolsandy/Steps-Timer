@@ -8,13 +8,45 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, StepsTimerView {
 
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var stepsLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var activitylabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    
+    lazy var sixMinTimer = SixMinTimer()
+    lazy var pedometer = PedometerImplementation()
+    lazy var presenter = StepsTimerPresenter(view: self, sixMinTimer: sixMinTimer, pedometer: pedometer)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func startWalking(_ sender: Any) {
+        presenter.startTest()
+        startButton.isEnabled = false
+    }
+    
+    func updateTimer(time: String) {
+        timeLabel.text = time
+    }
+    
+    func updateActivity(activity: String) {
+        //  TODO - update activityLabel
+    }
+    
+    func finishTest(steps: String) {
+        DispatchQueue.main.async {
+            self.stepsLabel.text = steps
+        }
+    }
+    
+    func finishTest(distance: String) {
+        DispatchQueue.main.async {
+            self.distanceLabel.text = distance
+        }
+    }
 }
 
