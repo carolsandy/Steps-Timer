@@ -15,13 +15,11 @@ class SixMinTimer {
     var timeUpdater: ((Int, Int, Bool) -> Void)?
 
     let timeInterval = 1
-    let testDuration = 3
+    let testDuration = 6
     
     func startTimer(timeUpdater: @escaping (Int, Int, Bool) -> Void) {
-        DispatchQueue.global(qos: .default).async {
-            self.timeUpdater = timeUpdater
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.trackTime), userInfo: nil, repeats: true)
-        }
+        self.timeUpdater = timeUpdater
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.trackTime), userInfo: nil, repeats: true)
     }
     
     @objc private func trackTime() {
